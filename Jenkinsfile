@@ -78,7 +78,12 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'AzureVMCredentials', usernameVariable: 'VM_USERNAME', passwordVariable: 'VM_PASSWORD')]) {
                         sh """
                             echo "Deploying to Azure VM..."
-
+                            # Installer sshpass si ce n'est pas déjà fait
+                            if ! command -v sshpass &> /dev/null; then
+                                echo "sshpass not found. Installing..."
+                                sudo apt-get update
+                                sudo apt-get install -y sshpass
+                            fi
                             # Copier le fichier docker-compose.yml vers la VM
                             sshpass -p ${VM_PASSWORD} scp -o StrictHostKeyChecking=no docker-compose.yml ${VM_USERNAME}@${AZURE_VM_IP}:/projectdevops
 
