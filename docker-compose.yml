@@ -1,9 +1,8 @@
 version: '3.8'
+
 services:
   coaudit-frontend:
-    build:
-      context: ./coAudit-frontend
-      dockerfile: Dockerfile
+    image: 13.91.127.73:8082/coaudit-frontend:latest
     container_name: coaudit-frontend
     ports:
       - "4200:80"
@@ -11,9 +10,7 @@ services:
       - coaudit-networks
 
   coaudit-backend:
-    build:
-      context: ./coAudit-backend
-      dockerfile: Dockerfile
+    image: 13.91.127.73:8082/coaudit-backend:latest
     container_name: coaudit-backend
     ports:
       - "8080:8080"
