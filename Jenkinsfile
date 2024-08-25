@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        // Créez un tag unique basé sur le numéro de build Jenkins
+        // Create unique tags based on Jenkins build number
         FRONTEND_TAG = "frontend-${env.BUILD_NUMBER}"
         BACKEND_TAG = "backend-${env.BUILD_NUMBER}"
         AZURE_VM_IP = '13.91.127.73'
@@ -14,7 +14,7 @@ pipeline {
                 script {
                     sh '''
                         echo "Installing Azure CLI..."
-                        curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+                        curl -sL https://aka.ms/InstallAzureCLIDeb | bash 
                     '''
                 }
             }
@@ -26,7 +26,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'azureCredentials', usernameVariable: 'AZURE_USERNAME', passwordVariable: 'AZURE_PASSWORD')]) {
                         sh '''
                             echo "Authenticating with Azure CLI..."
-                            az login -u $AZURE_USERNAME -p $AZURE_PASSWORD
+                            az login -u $AZURE_USERNAME -p $AZURE_PASSWORD 
                         '''
                     }
                 }
@@ -39,7 +39,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'NexusCredentials', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
                         sh '''
                             echo "Logging into Nexus..."
-                            echo $NEXUS_PASSWORD | docker login -u $NEXUS_USERNAME --password-stdin 13.91.127.73:8082
+                            echo $NEXUS_PASSWORD | docker login -u $NEXUS_USERNAME --password-stdin 13.91.127.73:8082 
                         '''
                     }
                 }
@@ -51,7 +51,7 @@ pipeline {
                 script {
                     sh """
                         echo "Building frontend Docker image with tag ${FRONTEND_TAG}..."
-                        docker build -t 13.91.127.73:8082/coaudit-frontend:latest -f coAudit-frontend/Dockerfile coAudit-frontend
+                        docker build -t 13.91.127.73:8082/coaudit-frontend:latest -f coAudit-frontend/Dockerfile coAudit-frontend 
                         echo "Pushing frontend Docker image with tag ${FRONTEND_TAG}..."
                         docker push 13.91.127.73:8082/coaudit-frontend:latest
                     """
@@ -64,15 +64,14 @@ pipeline {
                 script {
                     sh """
                         echo "Building backend Docker image with tag ${BACKEND_TAG}..."
-                        docker build -t 13.91.127.73:8082/coaudit-backend:latest -f coAudit-backend/Dockerfile coAudit-backend
+                        docker build -t 13.91.127.73:8082/coaudit-backend:latest -f coAudit-backend/Dockerfile coAudit-backend 
                         echo "Pushing backend Docker image with tag ${BACKEND_TAG}..."
                         docker push 13.91.127.73:8082/coaudit-backend:latest
                     """
                 }
             }
         }
-
-       
+    }
 
     post {
         always {
