@@ -39,7 +39,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'NexusCredentials', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
                         sh '''
                             echo "Logging into Nexus..."
-                            echo $NEXUS_PASSWORD | docker login -u $NEXUS_USERNAME --password-stdin 13.91.127.73:8083
+                            echo $NEXUS_PASSWORD | docker login -u $NEXUS_USERNAME --password-stdin 13.91.127.73:8082
                         '''
                     }
                 }
@@ -51,9 +51,9 @@ pipeline {
                 script {
                     sh """
                         echo "Building frontend Docker image with tag ${FRONTEND_TAG}..."
-                        docker build -t 13.91.127.73:8083/coaudit-frontend:${FRONTEND_TAG} -f coAudit-frontend/Dockerfile coAudit-frontend
+                        docker build -t 13.91.127.73:8082/coaudit-frontend:${FRONTEND_TAG} -f coAudit-frontend/Dockerfile coAudit-frontend
                         echo "Pushing frontend Docker image with tag ${FRONTEND_TAG}..."
-                        docker push 13.91.127.73:8083/coaudit-frontend:${FRONTEND_TAG}
+                        docker push 13.91.127.73:8082/coaudit-frontend:${FRONTEND_TAG}
                     """
                 }
             }
@@ -64,9 +64,9 @@ pipeline {
                 script {
                     sh """
                         echo "Building backend Docker image with tag ${BACKEND_TAG}..."
-                        docker build -t 13.91.127.73:8083/coaudit-backend:${BACKEND_TAG} -f coAudit-backend/Dockerfile coAudit-backend
+                        docker build -t 13.91.127.73:8082/coaudit-backend:${BACKEND_TAG} -f coAudit-backend/Dockerfile coAudit-backend
                         echo "Pushing backend Docker image with tag ${BACKEND_TAG}..."
-                        docker push 13.91.127.73:8083/coaudit-backend:${BACKEND_TAG}
+                        docker push 13.91.127.73:8082/coaudit-backend:${BACKEND_TAG}
                     """
                 }
             }
