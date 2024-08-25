@@ -1,0 +1,100 @@
+<div class="all">
+  <mat-card class="cardWithShadow theme-card m-5">
+    <mat-card-header>
+      <mat-card-title class="m-b-0">Société</mat-card-title>
+    </mat-card-header>
+    
+    <mat-card class="example-card" appearance="outlined">
+      <mat-card-header>
+        <div class="example-header-image">
+          <!-- Logo preview area -->
+          <img *ngIf="image" [src]="image" class="logo-preview" alt="Logo Preview">
+        </div>
+        
+        <mat-card-title>Changer le profil de l'entreprise</mat-card-title>
+        <mat-card-subtitle>Changer le logo de l'entreprise à partir d'ici</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <!-- File input for logo -->
+        <input type="file" (change)="onFileChange($event)" accept="image/*" />
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card-content class="b-t-1">
+      <form [formGroup]="companyForm" (ngSubmit)="isNewCompany ? addCompany() : updateCompany()">
+        <div class="row">
+          <div class="col-12">
+            <mat-card class="b-1 shadow-none">
+              <mat-card-header>
+                <mat-card-title>Informations de la société</mat-card-title>
+                <mat-card-subtitle>
+                  Pour {{ isNewCompany ? 'ajouter' : 'modifier' }} les informations, modifiez et enregistrez à partir d'ici
+                </mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content class="details">
+                <div class="form-group">
+                  <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Nom de la société</mat-label>
+                    <input matInput formControlName="name" name="companyName">
+                    <mat-error *ngIf="companyForm.controls['name'].invalid && (companyForm.controls['name'].touched || isFormSubmitted || companyForm.controls['name'].dirty)">
+                      <mat-error *ngIf="companyForm.controls['name'].errors?.['required']">Ce champ est obligatoire</mat-error>
+                    </mat-error>
+                  </mat-form-field>
+              
+                  <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Code</mat-label>
+                    <input matInput formControlName="code" name="companyCode">
+                  </mat-form-field>
+              
+                  <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Responsable</mat-label>
+                    <mat-select formControlName="responsible" name="companyResponsible">
+                      <mat-option *ngFor="let user of Users" [value]="user.email">{{ user.fullName }}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="companyForm.controls['responsible'].invalid && (companyForm.controls['responsible'].touched || isFormSubmitted || companyForm.controls['responsible'].dirty)">
+                      <mat-error *ngIf="companyForm.controls['responsible'].errors?.['required']">Ce champ est obligatoire</mat-error>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              
+                <div class="form-group">
+                  <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Siège de la société</mat-label>
+                    <textarea matInput formControlName="address" name="companyHeadquarters"></textarea>
+                    <mat-error *ngIf="companyForm.controls['address'].invalid && (companyForm.controls['address'].touched || isFormSubmitted || companyForm.controls['address'].dirty)">
+                      <mat-error *ngIf="companyForm.controls['address'].errors?.['required']">Ce champ est obligatoire</mat-error>
+                    </mat-error>
+                  </mat-form-field>
+              
+                  <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Téléphone</mat-label>
+                    <input matInput formControlName="phone" name="phone">
+                    <mat-error *ngIf="companyForm.controls['phone'].invalid && (companyForm.controls['phone'].touched || isFormSubmitted || companyForm.controls['phone'].dirty)">
+                      <mat-error *ngIf="companyForm.controls['phone'].errors?.['required']">Ce champ est obligatoire</mat-error>
+                      <mat-error *ngIf="companyForm.controls['phone'].errors?.['pattern']">Seuls les chiffres sont autorisés</mat-error>
+                      <mat-error *ngIf="companyForm.controls['phone'].errors?.['minlength'] || companyForm.controls['phone'].errors?.['maxlength']">Il faut exactement 8 chiffres</mat-error>
+                    </mat-error>
+                    <mat-icon matSuffix>phone</mat-icon>
+                  </mat-form-field>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+        
+        <div class="buttonMA">
+          <div>
+            <button mat-raised-button color="primary" class="button" type="submit">
+              {{ isNewCompany ? 'Ajouter' : 'Modifier' }}
+            </button>
+          </div>
+          <div>
+            <button mat-stroked-button color="warn" class="button" type="button">
+              Annuler
+            </button>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

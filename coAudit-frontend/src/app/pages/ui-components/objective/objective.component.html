@@ -1,0 +1,108 @@
+<mat-card class="cardWithShadow theme-card">
+  <mat-card-header>
+    <mat-card-title class="m-b-0">Liste des objectives</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <div class="filter">
+      <mat-form-field class="filter-input">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Title" #input>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="button" (click)="openPopup()">
+        <mat-icon>add</mat-icon>
+        Ajouter
+      </button>
+    </div>
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort>
+         <!-- Code Column -->
+         <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
+          <td mat-cell *matCellDef="let row"> {{row.code}} </td>
+        </ng-container>
+        <!-- Title Column -->
+        <ng-container matColumnDef="designation">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> designation</th>
+          <td mat-cell *matCellDef="let row"> {{row.designation}} </td>
+        </ng-container>
+       
+        
+         <!-- Version Column -->
+         <ng-container matColumnDef="axe">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Axe </th>
+          <td mat-cell *matCellDef="let row"> {{row.axe.title}} </td>
+        </ng-container>
+        
+      
+      
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <td mat-cell *matCellDef="let row">
+            <div class="action-buttons">
+              <button mat-icon-button color="warn" (click)="confirmDelete($event, row.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button mat-icon-button color="accent" (click)="openPopup(row)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="6">Aucun objective dans ce process</td>
+        </tr>
+      </table>
+      <mat-paginator [length]="totalProcess" [pageSize]="pageSize" [pageIndex]="currentPage"
+      [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChange($event)"
+      aria-label="Select page">
+      </mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
+
+<div *ngIf="showPopup" class="popup">
+  <div class="popup-content">
+    <mat-dialog-content class="mat-mdc-dialog-content mdc-dialog__content ng-star-inserted" style="max-width: 600px;">
+      <form [formGroup]="objForm">
+        <h2 style="text-align: center; text-decoration: underline;">
+          {{ selectedObjective ? 'Modifier une objective' : 'Ajouter une objective' }}
+        </h2>
+  
+        <div class="row">
+          <div class="col-lg-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <input type="text" matInput required placeholder="Designation" name="designation" formControlName="designation">
+            </mat-form-field>
+          </div>
+  
+          <div class="col-lg-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label required>Axe</mat-label>
+              <mat-select formControlName="axe" name="axe">
+                <mat-option *ngFor="let QP of QualityPolicy" [value]="QP.title">{{ QP.title }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+  
+        <button mat-raised-button color="primary" class="m-l-8" (click)=" saveObj()">
+          <span>{{ selectedObjective ? 'Modifier' : 'Ajouter' }}</span>
+        </button>
+        <button mat-stroked-button color="warn" (click)="handleBackButton()" class="m-l-8 mdc-button mdc-button--outlined mat-mdc-outlined-button mat-warn mat-mdc-button-base">
+          <span class="mdc-button__label">Retour</span>
+        </button>
+      </form>
+    </mat-dialog-content>
+  </div>
+</div>
+
+
+<!-- PrimeNG Components -->
+<p-toast></p-toast>
+<p-confirmPopup></p-confirmPopup>

@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  coaudit-frontend:
+    build:
+      context: ./coAudit-frontend
+      dockerfile: Dockerfile
+    container_name: coaudit-frontend
+    ports:
+      - "4200:80"
+    networks:
+      - coaudit-networks
+
+  coaudit-backend:
+    build:
+      context: ./coAudit-backend
+      dockerfile: Dockerfile
+    container_name: coaudit-backend
+    ports:
+      - "8080:8080"
+    networks:
+      - coaudit-networks
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+  db:
+    image: postgres:14
+    container_name: coaudit-db
+    ports:
+      - "5432:5432"
+    networks:
+      - coaudit-networks
+    environment:
+      POSTGRES_PASSWORD: nadastage
+      POSTGRES_DB: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+networks:
+  coaudit-networks:
+    driver: bridge
+
+volumes:
+  db-data:

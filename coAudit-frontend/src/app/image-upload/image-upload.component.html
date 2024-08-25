@@ -1,0 +1,20 @@
+<form [formGroup]="myForm" (ngSubmit)="submit()">
+ 
+      
+    <div class="form-group">
+        <label for="file">Logo</label>
+        <input 
+            formControlName="file"
+            id="file" 
+            type="file" 
+            class="form-control"
+            (change)="onFileChange($event)">
+        <div *ngIf="f['file'].touched && f['file'].invalid" class="alert alert-danger">
+            <div *ngIf="f['file'].errors && f['file'].errors['required']">logo obiligatoire.</div>
+        </div>
+    </div>
+      
+    <img class="logo" [src]="imageSrc" *ngIf="imageSrc" >
+          
+    <button class="btn btn-primary" [disabled]="myForm.invalid" type="submit">Enregistrer</button>
+</form>

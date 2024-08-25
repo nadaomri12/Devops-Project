@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Fiche de poste</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: white;
+        }
+        .centered-title {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .header {
+            width: 100%;
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid black;
+            padding-bottom: 10px;
+        }
+        .header img {
+            width: 100px;
+            height: auto;
+        }
+        .section-title {
+            font-size: 16px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .operation {
+            border: 2px solid #000;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <table>
+        <tr>
+            <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT78eWrB8cmsFxlpVObsDaxN1oBERJvpYzfSQ&s" alt="Logo" /></td>
+            <td class="centered-title"><strong>Fiche de poste</strong></td>
+            <td><strong>Date: <span th:text="${generationDate}"></span></strong>
+                <div><strong>Code:</strong> <span th:text="${postee.code}"></span></div>
+            </td>
+
+        </tr>
+    </table>
+</div>
+
+<p><strong>Designation Poste:</strong> <span th:text="${postee.designation}"></span></p>
+
+<div>
+    <table>
+        <thead>
+        <tr>
+            <th>Objectives</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="objective : ${objectives}">
+            <td th:text="${objective.designation}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<p><strong>Exigences du Poste:</strong></p>
+<div th:each="operation : ${operations}" class="operation">
+    <p><strong>Opération:</strong> <span th:text="${operation.designation}"></span></p>
+    <p><strong>Code de Processus:</strong> <span th:text="${operation.process.code}"></span></p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Tâche:</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task : ${operation.tasks}">
+            <td th:text="${task.designation}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

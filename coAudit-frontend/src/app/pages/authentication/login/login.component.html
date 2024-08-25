@@ -1,0 +1,41 @@
+<div class="blank-layout-container justify-content-center align-items-center bg-light-primary">
+  <div class="position-relative row w-100 h-100 bg-gredient justify-content-center">
+    <div class="col-lg-4 d-flex align-items-center">
+      <mat-card class="cardWithShadow boxed-auth">
+       
+        <mat-card-content class="p-32">
+          <div class="text-center">
+            <a >
+              <img
+                src="https://www.coconsult.fr/wp-content/uploads/2021/09/CoConsultLOGO-flood2-2.png"
+                class="align-middle m-2 "
+                style="max-width: 150px; max-height: 100px;"
+                alt="logo"
+              />
+            </a>
+          </div>
+          <form class="m-t-30" [formGroup]="loginForm">
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">E-mail</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput formControlName="email" class="form-control" id="email"/>
+              <div class="text-danger" *ngIf="loginForm.controls['email'].invalid && (loginForm.controls['email'].touched || isFormSubmitted || loginForm.controls['email'].dirty)">
+                <mat-error *ngIf="loginForm.controls['email'].errors?.['required']">Ce champ est obligatoire</mat-error>
+                <mat-error *ngIf="loginForm.controls['email'].errors?.['pattern']">Email invalide</mat-error>
+              </div>
+            </mat-form-field>
+            <!-- password -->
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Mot de passe</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" class="form-control" id="password"/>
+              <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
+                <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+            </mat-form-field>
+          
+            <a mat-flat-button color="primary" class="w-100" (click)="onLogin()">Se connecter</a>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

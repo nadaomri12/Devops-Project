@@ -1,0 +1,98 @@
+<mat-card class="cardWithShadow theme-card">
+  <button mat-icon-button color="warn" (click)="navigateBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <mat-card-header>
+    <mat-card-title class="m-b-0">Liste des Tâches</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <div class="filter">
+      <mat-form-field class="filter-input">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Title" #input>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="button" (click)="openPopup()">
+        <mat-icon>add</mat-icon>
+        Ajouter
+      </button>
+    </div>
+    <div class="mat-elevation-z8 table-container">
+      <div class="table-wrapper">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <!-- Code Column -->
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
+          <td mat-cell *matCellDef="let row"> {{row.code}} </td>
+        </ng-container>
+        <!-- Designation Column -->
+        <ng-container matColumnDef="designation">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Designation </th>
+          <td mat-cell *matCellDef="let row"> {{row.designation}} </td>
+        </ng-container>
+ 
+             <!-- Data Column -->
+             <ng-container matColumnDef="data">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Données </th>
+              <td mat-cell *matCellDef="let row">
+                <button mat-icon-button color="warn" (click)="navigateToData(row)">
+                  <mat-icon>assignment</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <td mat-cell *matCellDef="let row">
+            <div class="action-buttons">
+            
+              <button mat-icon-button color="warn" (click)="confirmDelete($event, row.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button mat-icon-button color="accent" (click)="openPopup(row)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <!-- No data row -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="6">No data matching the filter "{{input.value}}"</td>
+        </tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page"></mat-paginator>
+    </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- Add/Edit Popup -->
+<div *ngIf="showPopup" class="popup">
+  <div class="popup-content">
+    <mat-dialog-content class="mat-mdc-dialog-content mdc-dialog__content ng-star-inserted" style="max-width: 600px;">
+      <form [formGroup]="TaskForm">
+        <h2 style="text-align: center; text-decoration: underline;">
+          {{ selectedTask ? 'Modifier ' : 'Ajouter' }}
+        </h2>
+        <div class="row">
+          <div class="col-lg-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <input type="text" matInput required placeholder="Designation" name="designation" formControlName="designation">
+            </mat-form-field>
+          </div>
+        </div>
+        <button mat-raised-button color="primary" class="m-l-8" (click)="saveTask()">
+          <span>{{ selectedTask ? 'Modifier' : 'Ajouter' }}</span>
+        </button>
+        <button mat-stroked-button color="warn" (click)="handleBackButton()" class="m-l-8">
+          <span>Retour</span>
+        </button>
+      </form>
+    </mat-dialog-content>
+  </div>
+</div>
+
+<!-- PrimeNG Components -->
+<p-toast></p-toast>
+<p-confirmPopup></p-confirmPopup>
