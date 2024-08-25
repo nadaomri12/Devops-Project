@@ -5,7 +5,7 @@ pipeline {
         // Créez un tag unique basé sur le numéro de build Jenkins
         FRONTEND_TAG = "frontend-${env.BUILD_NUMBER}"
         BACKEND_TAG = "backend-${env.BUILD_NUMBER}"
-        
+        REGISTRY_URL = "13.91.127.73:8082"
     }
 
     stages {
@@ -19,7 +19,7 @@ pipeline {
                 }
             }
         }
- 
+
         stage('Azure CLI Authentication') {
             steps {
                 script {
@@ -39,34 +39,46 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'NexusCredentials', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
                         sh '''
                             echo "Logging into Nexus..."
-                            echo $NEXUS_PASSWORD | docker login -u $NEXUS_USERNAME --password-stdin 13.91.127.73:8082
+                            echo $NEXUS_PASSWORD | docker login -u $NEXUS_USERNAME --password-stdin $REGISTRY_URL
                         '''
                     }
                 }
             }
         }
 
-        stage('Build and Push Frontend Image') {
+        stage('Build, Tag and Push Frontend Image') {
             steps {
                 script {
                     sh """
                         echo "Building frontend Docker image with tag ${FRONTEND_TAG}..."
-                        docker build -t 13.91.127.73:8082/coaudit-frontend:${FRONTEND_TAG} -f coAudit-frontend/Dockerfile coAudit-frontend
+                        docker build -t $REGISTRY_URL/coaudit-frontend:${FRONTEND_TAG} -f coAudit-frontend/Dockerfile coAudit-frontend
+                        echo "Tagging frontend Docker image with 'latest'..."
+                        docker tag $REGISTRY_URL/coaudit-frontend:${FRONTEND_TAG} $REGISTRY_URL/coaudit-frontend:latest
+                        echo "Removing old 'latest' tag if it exists..."
+                        docker rmi $REGISTRY_URL/coaudit-frontend:latest || true
                         echo "Pushing frontend Docker image with tag ${FRONTEND_TAG}..."
-                        docker push 13.91.127.73:8082/coaudit-frontend:${FRONTEND_TAG}
+                        docker push $REGISTRY_URL/coaudit-frontend:${FRONTEND_TAG}
+                        echo "Pushing frontend Docker image with tag 'latest'..."
+                        docker push $REGISTRY_URL/coaudit-frontend:latest
                     """
                 }
             }
         }
 
-        stage('Build and Push Backend Image') {
+        stage('Build, Tag and Push Backend Image') {
             steps {
                 script {
                     sh """
                         echo "Building backend Docker image with tag ${BACKEND_TAG}..."
-                        docker build -t 13.91.127.73:8082/coaudit-backend:${BACKEND_TAG} -f coAudit-backend/Dockerfile coAudit-backend
+                        docker build -t $REGISTRY_URL/coaudit-backend:${BACKEND_TAG} -f coAudit-backend/Dockerfile coAudit-backend
+                        echo "Tagging backend Docker image with 'latest'..."
+                        docker tag $REGISTRY_URL/coaudit-backend:${BACKEND_TAG} $REGISTRY_URL/coaudit-backend:latest
+                        echo "Removing old 'latest' tag if it exists..."
+                        docker rmi $REGISTRY_URL/coaudit-backend:latest || true
                         echo "Pushing backend Docker image with tag ${BACKEND_TAG}..."
-                        docker push 13.91.127.73:8082/coaudit-backend:${BACKEND_TAG}
+                        docker push $REGISTRY_URL/coaudit-backend:${BACKEND_TAG}
+                        echo "Pushing backend Docker image with tag 'latest'..."
+                        docker push $REGISTRY_URL/coaudit-backend:latest
                     """
                 }
             }
@@ -75,7 +87,7 @@ pipeline {
 
     post {
         always {
-            cleanWs() 
+            cleanWs()
         }
         success {
             echo "Pipeline completed successfully."
