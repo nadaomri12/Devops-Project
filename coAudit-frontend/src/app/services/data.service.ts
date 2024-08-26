@@ -10,17 +10,17 @@ export class DataService {
   constructor(private http: HttpClient,private router: Router) { }
   
   getAllData():Observable<any>{
-    return this.http.get<[]>('http://localhost:8080/api/data')
+    return this.http.get<[]>(`api/data`)
   }
    
   addData(data:any): Observable<any> { 
-    return this.http.post<any>('http://localhost:8080/api/data',data);
+    return this.http.post<any>(`api/data`,data);
   }
 deleteData(id:any){
-    return this.http.delete('http://localhost:8080/api/data/'+id)
+    return this.http.delete(`api/data`+id)
   }
 
   updateData(taskDataId:any,id: any, data: any): Observable<any> {
-    return this.http.put<any>('http://localhost:8080/api/data/taskData/' + taskDataId, data);
+    return this.http.put<any>(`api/data/taskData/` + taskDataId, data);
   }
 }

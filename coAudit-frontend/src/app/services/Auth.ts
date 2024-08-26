@@ -22,17 +22,17 @@ export class AuthService {
       .set('offset', offset.toString())
       .set('pageSize', pageSize.toString());
 
-    return this.http.get<[]>("http://localhost:8080/api/users", { params });
+    return this.http.get<[]>(`api/users`, { params });
   }
   deleteUser(id:any){
-    return this.http.delete('http://localhost:8080/api/user/'+id)
+    return this.http.delete(`api/user`+id)
   }
   
   getUser(id:any):Observable<any>{
-    return this.http.get('http://localhost:8080/api/user/'+id)
+    return this.http.get(`api/user`+id)
   }
   updateUser(id: any, userObject: any): Observable<any> {
-    return this.http.put<any>('http://localhost:8080/api/user/' + id, userObject);
+    return this.http.put<any>(`api/user` + id, userObject);
   }
   signOut() {
     localStorage.clear();

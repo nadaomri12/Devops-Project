@@ -10,17 +10,17 @@ export class PostService {
 
   constructor(private http: HttpClient,private router: Router) { }
   getPoste():Observable<any>{
-    return this.http.get<[]>('http://localhost:8080/api/poste')
+    return this.http.get<[]>(`api/poste`)
   }
    updatePoste(id: any, Poste: any): Observable<any> {
-    return this.http.put<any>('http://localhost:8080/api/poste/' + id, Poste);
+    return this.http.put<any>(`api/poste` + id, Poste);
   }
   
   addJob(Poste:any): Observable<any> { 
-    return this.http.post<any>('http://localhost:8080/api/poste',Poste);
+    return this.http.post<any>(`api/poste`,Poste);
   }
   
   deletePoste(id:any){
-    return this.http.delete('http://localhost:8080/api/poste/'+id)
+    return this.http.delete(`api/poste`+id)
   }
 }

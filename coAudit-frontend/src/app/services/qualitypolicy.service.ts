@@ -11,20 +11,20 @@ export class QualitypolicyService {
   
   
   addQuality(quality:any): Observable<any> { 
-    return this.http.post<any>('http://localhost:8080/api/qualitypolicy',quality);
+    return this.http.post<any>(`api/qualitypolicy`,quality);
   }
   getAllQualityPolicy():Observable<any>{
-    return this.http.get<[]>('http://localhost:8080/api/qualitypolicy')
+    return this.http.get<[]>(`api/qualitypolicy`)
   }
   deleteQualityPolicy(id:any){
-    return this.http.delete('http://localhost:8080/api/qualitypolicy/'+id)
+    return this.http.delete(`api/qualitypolicy`+id)
   }
   
   getQualityPolicy(id:any):Observable<any>{
-    return this.http.get('http://localhost:8080/api/qualitypolicy/'+id)
+    return this.http.get(`api/qualitypolicy`+id)
   }
   updateQualityPolicy(id: any, quality: any): Observable<any> {
-    return this.http.put<any>('http://localhost:8080/api/qualitypolicy/' + id, quality);
+    return this.http.put<any>(`api/qualitypolicy` + id, quality);
   }
  
 }

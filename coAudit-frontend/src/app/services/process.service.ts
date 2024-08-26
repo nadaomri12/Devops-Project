@@ -13,21 +13,21 @@ export class ProcessService {
       .set('offset', offset.toString())
       .set('pageSize', pageSize.toString());
 
-    return this.http.get<[]>("http://localhost:8080/api/process", { params });
+    return this.http.get<[]>(`api/process`, { params });
   }
 
   addProcess(process:any): Observable<any> { 
-    return this.http.post<any>('http://localhost:8080/api/process',process);
+    return this.http.post<any>(`api/process`,process);
   }
   deleteProcess(id:any){
-    return this.http.delete('http://localhost:8080/api/process/'+id)
+    return this.http.delete(`api/process`+id)
   }
 
   updateProcess(id: any, process: any): Observable<any> {
-    return this.http.put<any>('http://localhost:8080/api/process/' + id, process);
+    return this.http.put<any>(`api/process` + id, process);
   }
   getProcess(id:any):Observable<any>{
-    return this.http.get('http://localhost:8080/api/process/'+id)
+    return this.http.get(`api/process`+id)
   }
 
 }

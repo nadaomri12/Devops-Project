@@ -51,9 +51,9 @@ pipeline {
                 script {
                     sh """
                         echo "Building frontend Docker image with tag ${FRONTEND_TAG}..."
-                        docker build -t 13.91.127.73:8082/coaudit-frontend:latest -f coAudit-frontend/Dockerfile coAudit-frontend
+                        docker build -t 13.91.127.73:8082/coaudit-frontend: ${FRONTEND_TAG} -f coAudit-frontend/Dockerfile coAudit-frontend
                         echo "Pushing frontend Docker image with tag ${FRONTEND_TAG}..."
-                        docker push 13.91.127.73:8082/coaudit-frontend:latest
+                        docker push 13.91.127.73:8082/coaudit-frontend: ${FRONTEND_TAG}
                     """
                 }
             }
@@ -64,9 +64,9 @@ pipeline {
                 script {
                     sh """
                         echo "Building backend Docker image with tag ${BACKEND_TAG}..."
-                        docker build -t 13.91.127.73:8082/coaudit-backend:latest -f coAudit-backend/Dockerfile coAudit-backend
+                        docker build -t 13.91.127.73:8082/coaudit-backend:${BACKEND_TAG} -f coAudit-backend/Dockerfile coAudit-backend
                         echo "Pushing backend Docker image with tag ${BACKEND_TAG}..."
-                        docker push 13.91.127.73:8082/coaudit-backend:latest
+                        docker push 13.91.127.73:8082/coaudit-backend:${BACKEND_TAG}
                     """
                 }
             }

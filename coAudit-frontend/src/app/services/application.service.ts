@@ -10,24 +10,24 @@ export class ApplicationService {
   constructor(private http: HttpClient,private router: Router) { }
 
   getAllProcessObjective(id:any):Observable<any>{
-    return this.http.get<[]>('http://localhost:8080/api/objectivebyprocess/'+ id)
+    return this.http.get<[]>(`api/objectivebyprocess/`+ id)
   }
 
   deleteObj(id:any){
-    return this.http.delete('http://localhost:8080/api/objective/'+id)
+    return this.http.delete(`api/objective/`+id)
   }
 
   updateObjective(id: any, objective: any): Observable<any> {
-    return this.http.put<any>('http://localhost:8080/api/objective/' + id, objective);
+    return this.http.put<any>(`api/objective/` + id, objective);
   }
   addObjective(objective:any): Observable<any> { 
-    return this.http.post<any>('http://localhost:8080/api/objective',objective);
+    return this.http.post<any>(`api/objective/`,objective);
   }
 //pour operation 
   // Add a new operation
-  private apiUrl = 'http://localhost:8080/api/operation'; 
+  private apiUrl = `api/operation`; 
   addOperation(Operation:any): Observable<any> { 
-    return this.http.post<any>('http://localhost:8080/api/operation',Operation);
+    return this.http.post<any>(`api/operation`,Operation);
   }
   // Delete an operation by ID
   deleteOperation(id: any): Observable<void> {
@@ -44,15 +44,15 @@ export class ApplicationService {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
   getAllProcessOperation(id:any):Observable<any>{
-    return this.http.get<[]>('http://localhost:8080/api/operationbyprocess/'+ id)
+    return this.http.get<[]>(`api/operationbyprocess/`+ id)
   }
   // Get all tasks related to a specific operation
   
   getAllOperationTask(id:any):Observable<any>{
-    return this.http.get<[]>('http://localhost:8080/api/taskbyoperation/'+ id)
+    return this.http.get<[]>(`api/taskbyoperation/`+ id)
   }
   getAllOperations():Observable<any>{
-    return this.http.get<[]>('http://localhost:8080/api/operation')
+    return this.http.get<[]>(`api/operation`)
   }
   
   

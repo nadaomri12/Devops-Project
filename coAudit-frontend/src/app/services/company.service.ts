@@ -9,12 +9,12 @@ export class CompanyService {
 
   constructor(private http: HttpClient,private router: Router) { }
   addcompany(FormData:any): Observable<any> { 
-    return this.http.post<any>('http://localhost:8080/api/company' ,FormData);
+    return this.http.post<any>(`api/company` ,FormData);
   }
   updatecompany(id: any, company: any): Observable<any> {
-    return this.http.put<any>('http://localhost:8080/api/company/' + id, company);
+    return this.http.put<any>(`api/company` + id, company);
   }
   getcompany():Observable<any>{
-    return this.http.get<[]>('http://localhost:8080/api/company')
+    return this.http.get<[]>(`api/company`)
   }
 }
