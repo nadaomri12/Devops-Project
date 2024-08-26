@@ -9,11 +9,11 @@ export class AuthService {
 
   constructor(private http: HttpClient,private router: Router) { }
   login(userObject:any): Observable<any> { 
-    return this.http.post<any>(`api/auth/authenticate` ,userObject);
+    return this.http.post<any>( `api/auth/authenticate` ,userObject);
   }
 
   signUp(userObject:any): Observable<any> { 
-    return this.http.post<any>(`/api/auth/register`,userObject);
+    return this.http.post<any>(`api/auth/register`,userObject);
   }
 
  

@@ -6,9 +6,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://13.91.127.73:4200")
+
 @RestController
 @RequestMapping(path = "api/auth")
+@CrossOrigin(origins = "http://localhost:4200")
 public class AuthenticationController {
     @Autowired
     private final AuthenticationService service;
