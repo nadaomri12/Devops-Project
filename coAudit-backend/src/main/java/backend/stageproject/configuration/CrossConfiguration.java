@@ -14,7 +14,7 @@ public class CrossConfiguration  {
                 @Override
                 public void addCorsMappings(CorsRegistry registry) {
                     registry.addMapping("/**")
-                            .allowedOrigins("*") // Autoriser toutes les origines
+                            .allowedOrigins("*") 
                             .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Autoriser ces méthodes
                             .allowedHeaders("*") // Autoriser tous les en-têtes
                             .allowCredentials(true); // Autoriser les informations d'identification

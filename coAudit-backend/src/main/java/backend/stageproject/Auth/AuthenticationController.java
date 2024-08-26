@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/auth")
-@CrossOrigin(origins = "http://localhost:4200")
+
 public class AuthenticationController {
     @Autowired
     private final AuthenticationService service;
