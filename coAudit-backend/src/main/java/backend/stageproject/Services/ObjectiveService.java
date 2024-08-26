@@ -1,11 +1,11 @@
 package backend.stageproject.Services;
 
 import backend.stageproject.Dto.ObjectiveDto;
-import backend.stageproject.Dto.QuallityPolicyDto;
+
 import backend.stageproject.Entity.Objective;
 import backend.stageproject.Entity.Process;
 import backend.stageproject.Entity.QualityPolicy;
-import backend.stageproject.Entity.User;
+
 import backend.stageproject.Repository.ObjectiveRepository;
 import backend.stageproject.Repository.ProcessRepository;
 import backend.stageproject.Repository.QualityRepository;

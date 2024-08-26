@@ -72,7 +72,7 @@ pipeline {
             }
         }
 
-        stage('Deploy to VM') {
+       /* stage('Deploy to VM') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'AzureVMCredentials', usernameVariable: 'VM_USERNAME', passwordVariable: 'VM_PASSWORD')]) {
@@ -95,7 +95,7 @@ pipeline {
             }
         }
     }
-
+*/
     post {
         always {
             cleanWs()

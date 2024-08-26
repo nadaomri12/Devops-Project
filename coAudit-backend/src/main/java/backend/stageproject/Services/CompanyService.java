@@ -1,18 +1,17 @@
 package backend.stageproject.Services;
 
 import backend.stageproject.Dto.CompanyDto;
-import backend.stageproject.Dto.ObjectiveDto;
+
 import backend.stageproject.Entity.Company;
-import backend.stageproject.Entity.Objective;
+
 import backend.stageproject.Entity.User;
 import backend.stageproject.Repository.CompanyRepository;
 import backend.stageproject.Repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
