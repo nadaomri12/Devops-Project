@@ -17,7 +17,7 @@ export class DataService {
     return this.http.post<any>(`api/data`,data);
   }
 deleteData(id:any){
-    return this.http.delete(`api/data`+id)
+    return this.http.delete(`api/data/${id}`)
   }
 
   updateData(taskDataId:any,id: any, data: any): Observable<any> {

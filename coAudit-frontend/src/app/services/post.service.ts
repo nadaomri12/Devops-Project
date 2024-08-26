@@ -13,7 +13,7 @@ export class PostService {
     return this.http.get<[]>(`api/poste`)
   }
    updatePoste(id: any, Poste: any): Observable<any> {
-    return this.http.put<any>(`api/poste` + id, Poste);
+    return this.http.put<any>(`api/poste/${id}`, Poste);
   }
   
   addJob(Poste:any): Observable<any> { 
@@ -21,6 +21,6 @@ export class PostService {
   }
   
   deletePoste(id:any){
-    return this.http.delete(`api/poste`+id)
+    return this.http.delete(`api/poste/${id}`)
   }
 }

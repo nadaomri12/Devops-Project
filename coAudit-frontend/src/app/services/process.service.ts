@@ -20,14 +20,14 @@ export class ProcessService {
     return this.http.post<any>(`api/process`,process);
   }
   deleteProcess(id:any){
-    return this.http.delete(`api/process`+id)
+    return this.http.delete(`api/process/${id}`)
   }
 
   updateProcess(id: any, process: any): Observable<any> {
-    return this.http.put<any>(`api/process` + id, process);
+    return this.http.put<any>(`api/process/${id}`, process);
   }
   getProcess(id:any):Observable<any>{
-    return this.http.get(`api/process`+id)
+    return this.http.get(`api/process/${id}`)
   }
 
 }

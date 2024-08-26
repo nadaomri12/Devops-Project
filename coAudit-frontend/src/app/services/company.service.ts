@@ -12,7 +12,7 @@ export class CompanyService {
     return this.http.post<any>(`api/company` ,FormData);
   }
   updatecompany(id: any, company: any): Observable<any> {
-    return this.http.put<any>(`api/company` + id, company);
+    return this.http.put<any>(`api/company/${id}`, company);
   }
   getcompany():Observable<any>{
     return this.http.get<[]>(`api/company`)
