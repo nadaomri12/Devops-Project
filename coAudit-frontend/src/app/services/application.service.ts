@@ -10,18 +10,18 @@ export class ApplicationService {
   constructor(private http: HttpClient,private router: Router) { }
 
   getAllProcessObjective(id:any):Observable<any>{
-    return this.http.get<[]>(`api/objectivebyprocess/`+ id)
+    return this.http.get<[]>(`api/objectivebyprocess/${id}`)
   }
 
   deleteObj(id:any){
-    return this.http.delete(`api/objective/`+id)
+    return this.http.delete(`api/objective/${id}`)
   }
 
   updateObjective(id: any, objective: any): Observable<any> {
-    return this.http.put<any>(`api/objective/` + id, objective);
+    return this.http.put<any>(`api/objective/${id}`, objective);
   }
   addObjective(objective:any): Observable<any> { 
-    return this.http.post<any>(`api/objective/`,objective);
+    return this.http.post<any>(`api/objective`,objective);
   }
 //pour operation 
   // Add a new operation
@@ -44,12 +44,12 @@ export class ApplicationService {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
   getAllProcessOperation(id:any):Observable<any>{
-    return this.http.get<[]>(`api/operationbyprocess/`+ id)
+    return this.http.get<[]>(`api/operationbyprocess/${id}`)
   }
   // Get all tasks related to a specific operation
   
   getAllOperationTask(id:any):Observable<any>{
-    return this.http.get<[]>(`api/taskbyoperation/`+ id)
+    return this.http.get<[]>(`api/taskbyoperation/${id}`)
   }
   getAllOperations():Observable<any>{
     return this.http.get<[]>(`api/operation`)

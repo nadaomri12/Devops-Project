@@ -24,13 +24,13 @@ export class PDFService {
   }
 
   exportProcessToPDF(id:any): Observable<Blob> {
-    return this.http.get(`api/process/export/pdf/`+id, {
+    return this.http.get(`api/process/export/pdf/${id}`, {
       responseType: 'blob'
     });
    
   }
   exportPosteToPDF(id:any): Observable<Blob> {
-    return this.http.get(`api/poste/exportfichedeposte/`+id, {
+    return this.http.get(`api/poste/exportfichedeposte/${id}`, {
       responseType: 'blob'
     });
    

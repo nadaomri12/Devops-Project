@@ -13,15 +13,16 @@ export class TaskService {
     return this.http.post<any>(`api/task`,Task);
   }
 deleteTask(id:any){
-    return this.http.delete(`api/task`+id)
+    return this.http.delete(`api/task/${id}`)
   }
 
   updateTask(id: any, task: any): Observable<any> {
-    return this.http.put<any>(`api/task` + id, task);
+    return this.http.put<any>(`api/task/${id}`, task);
   }
 
-getAllDataTask(id:any):Observable<any>{
-  return this.http.get<[]>(`api/task`+ id+`/data`)
-}
+  getAllDataTask(id: any): Observable<any> {
+    return this.http.get<any[]>(`api/task/${id}/data`);
+  }
+  
  
 }
