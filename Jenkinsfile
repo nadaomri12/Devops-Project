@@ -71,6 +71,29 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy to VM') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'AzureVMCredentials', usernameVariable: 'VM_USERNAME', passwordVariable: 'VM_PASSWORD')]) {
+                        sh '''
+                            echo "Deploying to Azure VM..."
+                            # Copy Docker Compose files to the VM
+                            sshpass -p $VM_PASSWORD scp -o StrictHostKeyChecking=no docker-compose.yml .env $VM_USERNAME@$AZURE_VM_IP:/home/$VM_USERNAME/
+                            
+                            # SSH into the VM and run Docker Compose commands
+                            sshpass -p $VM_PASSWORD ssh -o StrictHostKeyChecking=no $VM_USERNAME@$AZURE_VM_IP '
+                                echo "Navigating to Docker Compose directory..."
+                                cd /home/$VM_USERNAME
+                                echo "Pulling latest images and starting containers..."
+                                docker-compose pull
+                                docker-compose up -d
+                            '
+                        '''
+                    }
+                }
+            }
+        }
     }
 
     post {
