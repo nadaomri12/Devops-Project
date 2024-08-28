@@ -87,6 +87,7 @@ pipeline {
                                 docker-compose down || true
                                 docker-compose pull
                                 docker-compose up -d
+                                echo "Deployment complete."
                             EOF
                         '''
                     }
