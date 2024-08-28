@@ -82,6 +82,7 @@ pipeline {
                             ssh -o StrictHostKeyChecking=no nadaomri@${AZURE_VM_IP} << EOF
                                 echo "Running Docker Compose on Azure VM..."
                                 cd /home/nadaomri/
+                                docker-compose down || true
                                 docker-compose pull
                                 docker-compose up -d
                             EOF
