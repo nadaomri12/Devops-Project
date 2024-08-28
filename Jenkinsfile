@@ -81,8 +81,8 @@ pipeline {
                             scp -o StrictHostKeyChecking=no docker-compose.yml .env nadaomri@${AZURE_VM_IP}:/home/nadaomri/
                             ssh -o StrictHostKeyChecking=no nadaomri@${AZURE_VM_IP} << EOF
                                 echo "Logging into Nexus on Azure VM..."
-                                echo $NEXUS_PASSWORD | docker login -u $NEXUS_USERNAME --password-stdin ${AZURE_VM_IP}:8082
-                                echo "Running Docker Compose on Azure VM..."
+                               docker login -u admin -p 11645158 13.64.76.130:8082
+                               echo "Running Docker Compose on Azure VM..."
                                 cd /home/nadaomri/
                                 docker-compose down || true
                                 docker-compose pull
