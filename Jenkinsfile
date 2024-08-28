@@ -71,6 +71,25 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy to Azure VM') {
+            steps {
+                script {
+                    sshagent(['AzureVMSSH']) {
+                        sh '''
+                            echo "Deploying application to Azure VM..."
+                            scp -o StrictHostKeyChecking=no docker-compose.yml .env nadaomri@${AZURE_VM_IP}:/home/nadaomri/
+                            ssh -o StrictHostKeyChecking=no nadaomri@${AZURE_VM_IP} << EOF
+                                echo "Running Docker Compose on Azure VM..."
+                                cd /home/nadaomri/
+                                docker-compose pull
+                                docker-compose up -d
+                            EOF
+                        '''
+                    }
+                }
+            }
+        }
     }
 
     post {
