@@ -5,7 +5,7 @@ pipeline {
         // Crée des tags uniques basés sur le numéro de build Jenkins
         FRONTEND_TAG = "frontend-${env.BUILD_NUMBER}"
         BACKEND_TAG = "backend-${env.BUILD_NUMBER}"
-        AZURE_VM_IP = '13.91.127.73'
+        AZURE_VM_IP = '13.64.76.130'
     }
 
     stages {
