@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BlankComponent } from './layouts/blank/blank.component';
-
-import { AppSideLoginComponent } from './pages/authentication/login/login.component';
+import { FullComponent } from './layouts/full/full.component';
 
 
 const routes: Routes = [
@@ -11,7 +10,7 @@ const routes: Routes = [
 
   {
     path: '',
-    component: AppSideLoginComponent,
+    component: FullComponent,
     children: [
    
       {
