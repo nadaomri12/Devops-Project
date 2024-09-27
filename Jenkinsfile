@@ -33,18 +33,19 @@ pipeline {
             }         
         }          
         
-        stage('Login to Nexus') {             
-            steps {                 
-                script {                     
-                    withCredentials([usernamePassword(credentialsId: 'NexusCredentials', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {                         
-                        sh '''                             
-                            echo "Logging into Nexus..."                             
-                            echo $NEXUS_PASSWORD | docker login -u $NEXUS_USERNAME --password-stdin ${AZURE_VM_IP}:8082                         
-                        '''                     
-                    }                 
-                }             
-            }         
-        }          
+         stage('Login to Nexus') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'NexusCredentials', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
+                        sh '''
+                            echo "Logging into Nexus..."
+                            echo $NEXUS_PASSWORD | docker login -u $NEXUS_USERNAME --password-stdin ${AZURE_VM_IP}:8082
+                        '''
+                    }
+                }
+            }
+        }
+   
         
         stage('Build and Push Frontend Image') {             
             steps {                 

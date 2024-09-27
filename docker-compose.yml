@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   coaudit-frontend:
-    image: 13.64.76.130:8082/coaudit-frontend:frontend-43
+    image: 13.64.76.130:8082/coaudit-frontend:frontend-14
     container_name: coaudit-frontend
     ports:
       - "4200:80"
@@ -10,7 +10,7 @@ services:
       - coaudit-networks
 
   coaudit-backend:
-    image: 13.64.76.130:8082/coaudit-backend:backend-43
+    image: 13.64.76.130:8082/coaudit-backend:backend-14
     container_name: coaudit-backend
     ports:
       - "8080:8080"
