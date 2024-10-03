@@ -18,7 +18,7 @@ import static java.lang.Boolean.TRUE;
 
 
 @SpringBootApplication
-@EnableJpaAuditing
+//@EnableJpaAuditing
 public class StageprojectApplication {
 
 	public static void main(String[] args) {
