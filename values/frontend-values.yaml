@@ -1,6 +1,6 @@
 appName: coaudit-frontend
 appImage: nadaomri2001/coaudit-frontend
-appVersion: latest
+appVersion: frontend-51
 appReplicas: 2
 containerPort: 80
 containerEnvVars:

@@ -1,6 +1,6 @@
 appName: coaudit-backend
 appImage: nadaomri2001/coaudit-backend
-appVersion: latest
+appVersion: backend-51
 appReplicas: 2
 containerPort: 8080
 containerEnvVars:
