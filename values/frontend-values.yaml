@@ -1,0 +1,12 @@
+appName: coaudit-frontend
+appImage: nadaomri2001/coaudit-frontend
+appVersion: latest
+appReplicas: 2
+containerPort: 80
+containerEnvVars:
+- name: PORT
+  value: "4200" 
+- name: Back
+  value: "coaudit-backend:8080" 
+servicePort: 4200
+serviceType: LoadBalancer

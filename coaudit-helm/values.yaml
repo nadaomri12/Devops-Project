@@ -1,0 +1,10 @@
+appName: frontend
+appImage: localhost:8082/coaudit-frontend
+appVersion: frontend-42
+appReplicas: 2
+containerPort: 80
+containerEnvVars:
+- name: PORT
+  value: "4200"  
+servicePort: 4200
+serviceType: LoadBalancer

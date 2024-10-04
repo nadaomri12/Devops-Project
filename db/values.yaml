@@ -1,0 +1,13 @@
+appName: coaudit-db
+appImage: postgres
+appVersion: 14
+appReplicas: 1
+containerPort: 5432
+volumeName: db-data
+containerMountPath: /data
+containerEnvVars:
+  - name: POSTGRES_PASSWORD
+    value: "nadastage"  # Mot de passe root
+  - name: POSTGRES_DB
+    value: " postgres"  # Nom de la base de données
+servicePort: 5432

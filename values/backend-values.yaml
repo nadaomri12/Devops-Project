@@ -1,0 +1,18 @@
+appName: coaudit-backend
+appImage: nadaomri2001/coaudit-backend
+appVersion: latest
+appReplicas: 2
+containerPort: 8080
+containerEnvVars:
+  - name: PORT
+    value: "8080"
+  - name: SPRING_APPLICATION_NAME
+    value: "stageproject"
+  - name: SPRING_DATASOURCE_USERNAME
+    value: "postgres"
+  - name: SPRING_DATASOURCE_PASSWORD
+    value: "nadastage"
+  - name: SPRING_DATASOURCE_URL
+    value: "jdbc:postgresql://coaudit-db:5432/postgres"
+servicePort: 8080
+serviceType: ClusterIP
