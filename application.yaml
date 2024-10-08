@@ -1,29 +1,29 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: myapp-argo-application
+  name: frontend-backend-app
   namespace: argocd
 spec:
   project: default
-
   source:
     repoURL: https://github.com/nadaomri12/Devops-Project.git
     targetRevision: HEAD
-    path: kubernetes/db
+    path: kubernetes/coaudit-helm  # Ensure this path is correct relative to your repo
     helm:
       valueFiles:
-      - db-values.yaml  # Fichier de configuration Helm pour le backend
+      - values/frontend-values.yaml  # Ensure these values files exist in the repo
+      - values/backend-values.yaml
       parameters:
-        - name: replicaCount
-          value: "3"
-  destination: 
+        - name: backend.image.tag
+          value: "1.0.0"  # Image tag for the backend
+        - name: frontend.image.tag
+          value: "1.0.0"  # Image tag for the frontend
+  destination:
     server: https://kubernetes.default.svc
-    namespace: myapp
-
+    namespace: frontend-backend  # Namespace where frontend-backend services will be deployed
   syncPolicy:
     syncOptions:
-    - CreateNamespace=true
-
+    - CreateNamespace=true  # Automatically create the namespace if it doesn't exist
     automated:
-      selfHeal: true
-      prune: true
+      selfHeal: true  # Automatically fix drift
+      prune: true  # Remove resources that are no longer defined
