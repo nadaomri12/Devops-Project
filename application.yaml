@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: fullstack-app
+  name: myapp-argo-application
   namespace: argocd
 spec:
   project: default
@@ -9,50 +9,19 @@ spec:
   source:
     repoURL: https://github.com/nadaomri12/Devops-Project.git
     targetRevision: HEAD
-    path: coaudit-helm  # Chemin vers le chart qui gère le frontend et backend ensemble 
+    path: kubernetes/db
     helm:
       valueFiles:
-      - frontend-values.yaml  # Fichier de configuration Helm pour le frontend
-      - backend-values.yaml  # Fichier de configuration Helm pour le backend
-      
-
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: myapp  # Namespace pour l'application complète
-
-  syncPolicy:
-    syncOptions:
-    - CreateNamespace=true  # Créer le namespace s'il n'existe pas
-    automated:
-      selfHeal: true  # Auto-réparer les différences
-      prune: true  # Supprimer les ressources obsolètes
-
----
-# Application pour la base de données
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: db-app
-  namespace: argocd
-spec:
-  project: default
-
-  source:
-    repoURL: https://github.com/nadaomri12/Devops-Project.git
-    targetRevision: HEAD
-    path: db  # Chemin vers le chart pour la base de données
-    helm:
-      valueFiles:
-      - values/db-values.yaml  # Fichier de configuration Helm pour la base de données
+      - values/db-values.yaml  # Fichier de configuration Helm pour le backend
      
-
-  destination:
+  destination: 
     server: https://kubernetes.default.svc
-    namespace: myapp  # Même namespace pour la base de données
+    namespace: myapp
 
   syncPolicy:
     syncOptions:
-    - CreateNamespace=true  # Créer le namespace s'il n'existe pas
+    - CreateNamespace=true
+
     automated:
-      selfHeal: true  # Auto-réparer les différences
-      prune: true  # Supprimer les ressources obsolètes
+      selfHeal: true
+      prune: true
