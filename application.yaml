@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/nadaomri12/Devops-Project.git
     targetRevision: HEAD
-    path: dev
+    path: kubernetes
   destination: 
     server: https://kubernetes.default.svc
     namespace: myapp
