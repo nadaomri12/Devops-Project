@@ -14,5 +14,7 @@ containerEnvVars:
     value: "nadastage"
   - name: SPRING_DATASOURCE_URL
     value: "jdbc:postgresql://coaudit-db:5432/postgres"
+  - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+    value: "update"  
 servicePort: 8080
 serviceType: ClusterIP
