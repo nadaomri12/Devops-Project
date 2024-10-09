@@ -1,25 +1,49 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: frontend-backend-app
+  name: db-application
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/nadaomri12/Devops-Project.git
     targetRevision: HEAD
-    path: kubernetes/coaudit-helm # Ensure this path is correct relative to your repo
+    path: kubernetes/db
     helm:
       valueFiles:
-      - values/frontend-values.yaml  # Ensure these values files exist in the repo
-      - values/backend-values.yaml
-      
-  destination:
+        - ../values/db-values.yaml
+  destination: 
     server: https://kubernetes.default.svc
-    namespace: default  # Namespace where frontend-backend services will be deployed
+    namespace: default
   syncPolicy:
     syncOptions:
-    - CreateNamespace=true  # Automatically create the namespace if it doesn't exist
+      - CreateNamespace=true
     automated:
-      selfHeal: true  # Automatically fix drift
-      prune: true  # Remove resources that are no longer defined
+      selfHeal: true
+      prune: true
+
+---
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: microservice-application
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/nadaomri12/Devops-Project.git
+    targetRevision: HEAD
+    path: kubernetes/coaudit-helm
+    helm:
+      valueFiles:
+        - ../values/frontend-values.yaml
+  destination: 
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      selfHeal: true
+      prune: true
