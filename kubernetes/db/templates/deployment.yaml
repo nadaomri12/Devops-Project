@@ -32,11 +32,13 @@ spec:
         
         volumeMounts:
           - name: postgres-persistent-storage
-            mountPath: /var/lib/postgresql/data
+            mountPath: /var/lib/postgresql/data/pgdata  # Utiliser un sous-répertoire pour éviter des conflits
+            subPath: pgdata
       volumes:
       - name: postgres-persistent-storage
         persistentVolumeClaim:
           claimName: postgres-pv-claim
+
 
 
 
