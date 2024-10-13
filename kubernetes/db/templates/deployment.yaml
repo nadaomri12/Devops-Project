@@ -32,7 +32,7 @@ spec:
         
         volumeMounts:
           - name: postgres-persistent-storage
-            mountPath: /var/lib/postgresql/data/mydata
+            mountPath: /var/lib/postgresql/data
 
            
       volumes:
