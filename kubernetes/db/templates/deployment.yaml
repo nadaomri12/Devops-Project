@@ -30,10 +30,12 @@ spec:
                 name: {{ .Values.secretName }}
                 key: POSTGRES_DB
 
+          - name: PGDATA
+            value: /var/lib/postgresql/data/pgdata  # Use a subdirectory for the database data
 
         volumeMounts:
           - name: postgres-persistent-storage
-            mountPath: /var/lib/postgresql/data
+            mountPath: /var/lib/postgresql/data/pgdata
         readinessProbe:
             exec:
               command: ["pg_isready", "-U", "postgres"]
