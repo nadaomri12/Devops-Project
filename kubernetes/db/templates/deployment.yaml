@@ -29,10 +29,11 @@ spec:
               secretKeyRef:
                 name: {{ .Values.secretName }}
                 key: POSTGRES_DB
-        
+          - name : pgdata
+            value : /var/lib/postgresql/data/db
         volumeMounts:
           - name: postgres-persistent-storage
-            mountPath: /var/lib/postgresql/data
+            mountPath: /var/lib/postgresql/data/db
 
            
       volumes:
