@@ -1,0 +1,84 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-restore
+  namespace: default
+spec:
+  template:
+    spec:
+      restartPolicy: Never  # Do not restart the job on failure
+      containers:
+        - name: download-from-azure
+          image: mcr.microsoft.com/azure-cli
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+               # List blobs and get the latest backup file
+               BLOB_NAME=$(az storage blob list --account-name "backupcompte12" \
+                --account-key "$AZURE_STORAGE_KEY" \
+                --container-name "$AZURE_CONTAINER_NAME" \
+                --query "[?starts_with(name, 'backup-')].name" -o tsv | sort -r | head -n 1)
+
+               # Download the backup file from Azure
+               az storage blob download --account-name "backupcompte12" \
+                 --account-key "$AZURE_STORAGE_KEY" \
+                 --container-name "$AZURE_CONTAINER_NAME" \
+                 --name "$BLOB_NAME" \
+                 --file "/backup/$BLOB_NAME"
+
+               # Save the blob name to a temporary file
+               echo "$BLOB_NAME" > /backup/blob_name.txt
+          env:
+            - name: AZURE_STORAGE_ACCOUNT
+              value: "backupcompte12"  # Azure account name
+            - name: AZURE_STORAGE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: azure-storage-secret  # Secret containing Azure account key
+                  key: value
+            - name: AZURE_CONTAINER_NAME
+              value: "backup-container"  # Azure container name
+          volumeMounts:
+            - name: backup-storage
+              mountPath: /backup  # Mount point for the volume
+
+        - name: postgres-restore
+          image: postgres:14
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              # Wait for the backup file to be available
+              until [ -f /backup/blob_name.txt ]; do
+                echo "Waiting for blob name file..."
+                sleep 5
+              done
+
+              # Read the name of the backup file
+              BLOB_NAME=$(cat /backup/blob_name.txt)
+
+              # Restore the database
+              # Restore the database
+              psql -h coaudit-db -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f "/backup/$BLOB_NAME"
+
+
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: coaudit-db-secret  # Secret containing PostgreSQL password
+                  key: POSTGRES_PASSWORD         
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: coaudit-db-secret  # Secret containing the database name
+                  key: POSTGRES_DB
+          volumeMounts:
+            - name: backup-storage
+              mountPath: /backup  # Mount point for the volume
+
+      volumes:
+        - name: backup-storage
+          persistentVolumeClaim:
+            claimName: backup-pvcc  # Ensure this PVC exists

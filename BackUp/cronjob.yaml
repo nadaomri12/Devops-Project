@@ -1,0 +1,60 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgres-backup
+  namespace: default
+spec:
+  schedule: "*/3 * * * *"  # Exécution toutes les 3 minutes
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: postgres-backup
+            image: postgres:14
+            command: ["/bin/sh", "-c"]
+            args:
+              - |
+                PGPASSWORD=${POSTGRES_PASSWORD} pg_dump -h coaudit-db  -p 5432 -U ${POSTGRES_USER} ${POSTGRES_DB} > /backup/backup-$(date +%F).sql
+            env:
+              - name: POSTGRES_USER
+                value: postgres
+                  
+              - name: POSTGRES_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: coaudit-db-secret
+                    key: POSTGRES_PASSWORD         
+              - name: POSTGRES_DB
+                valueFrom:
+                  secretKeyRef:
+                    name: coaudit-db-secret
+                    key: POSTGRES_DB         
+            volumeMounts:
+              - name: backup-storage
+                mountPath: /backup
+
+          - name: upload-to-azure
+            image: mcr.microsoft.com/azure-cli
+            command: ["/bin/sh", "-c"]
+            args:
+              - |
+                az storage blob upload --account-name "backupcompte12" --account-key "$AZURE_STORAGE_KEY" --container-name "backup-container" --name backup-$(date +%F).sql --file /backup/backup-$(date +%F).sql
+            env:
+              - name: AZURE_STORAGE_ACCOUNT
+                value: "backupcompte12"
+              - name: AZURE_STORAGE_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: azure-storage-secret  # Le nom du secret contenant les informations Azure
+                    key: value
+              - name: AZURE_CONTAINER_NAME
+                value: "backup-container"
+            volumeMounts:
+              - name: backup-storage
+                mountPath: /backup
+
+          volumes:
+          - name: backup-storage
+            emptyDir: {}
